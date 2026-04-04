@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Reset Era Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0c0b09; --text: #e8e2d9; --accent: #c9a96e;
+      --muted: #6b6560; --border: #252220;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Inter', sans-serif;
+    }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--sans); min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; -webkit-font-smoothing: antialiased;
+    }
+    .card {
+      max-width: 420px; width: 100%; text-align: center;
+      display: flex; flex-direction: column; gap: 24px;
+      align-items: center;
+    }
+    .mark { font-size: 40px; }
+    .eyebrow {
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent);
+    }
+    h1 {
+      font-family: var(--serif); font-size: 2.2rem; font-weight: 300;
+      line-height: 1.2; color: var(--text);
+    }
+    .sub { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 320px; }
+    .email-display {
+      background: #131210; border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 20px;
+      font-size: 14px; color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+    .btn {
+      background: var(--accent); color: #0c0b09;
+      border: none; padding: 15px 36px; border-radius: 100px;
+      font-family: var(--sans); font-size: 15px; font-weight: 500;
+      cursor: pointer; text-decoration: none; display: inline-block;
+      transition: 0.2s ease;
+    }
+    .btn:hover { background: #d9b97e; transform: translateY(-1px); }
+    .fine { font-size: 12px; color: var(--muted); }
+    #status { font-size: 14px; color: var(--muted); min-height: 20px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="mark">✦</div>
+    <p class="eyebrow">Reset Era Pro</p>
+    <h1>You're in.</h1>
+    <p class="sub">Your mind now has a system it can rely on. Come back whenever it gets crowded.</p>
+    <div id="emailDisplay" class="email-display" style="display:none"></div>
+    <p id="status">Activating your Pro access…</p>
+    <a href="/" class="btn" id="ctaBtn" style="display:none">Start your first Pro reset</a>
+    <p class="fine">Check your email for a receipt. Questions? Reply to that email.</p>
+  </div>
+
+  <script>
+    async function activate() {
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get('session_id');
+
+      if (!sessionId) {
+        document.getElementById('status').textContent = '';
+        document.getElementById('ctaBtn').style.display = 'inline-block';
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/verify-session?session_id=${sessionId}`);
+        const data = await res.json();
+
+        if (data.paid && data.email) {
+          localStorage.setItem('reset_era_pro', 'true');
+          localStorage.setItem('reset_era_email', data.email);
+
+          const display = document.getElementById('emailDisplay');
+          display.textContent = data.email;
+          display.style.display = 'block';
+          document.getElementById('status').textContent = 'Pro access activated.';
+        } else {
+          document.getElementById('status').textContent = 'Payment confirmed.';
+        }
+      } catch (e) {
+        document.getElementById('status').textContent = '';
+      }
+
+      document.getElementById('ctaBtn').style.display = 'inline-block';
+    }
+
+    activate();
+  </script>
+</body>
+</html>

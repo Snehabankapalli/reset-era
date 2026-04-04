@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reset Era — Clear Your Mind in Under a Minute</title>
+  <meta name="description" content="Dump everything on your mind. Get a clear next step in under a minute. Reset Era helps overwhelmed people clear mental noise and decide what matters now." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- HEADER -->
+    <header>
+      <div class="logo">✦ Reset Era</div>
+      <div class="header-right">
+        <span class="uses-badge" id="usesBadge"></span>
+        <button class="btn-ghost" id="upgradeBtn">Unlock Pro</button>
+      </div>
+    </header>
+
+    <!-- HERO SCREEN -->
+    <section id="heroScreen" class="screen active">
+      <div class="hero-wrap">
+
+        <!-- HERO -->
+        <div class="hero-content">
+          <p class="eyebrow" id="heroEyebrow">AI Clarity System</p>
+          <h1 id="heroH1">Your brain isn't lazy.<br/><em>It's overloaded.</em></h1>
+          <p class="sub" id="heroSub">Dump everything on your mind.<br/>Get a clear next step in under a minute.</p>
+          <button class="btn-primary" id="startBtn">Clear my mind</button>
+          <p class="cta-note">3 free resets — no account needed</p>
+          <p class="no-friction-note">no credit card · no signup · just clarity</p>
+        </div>
+
+        <!-- HOW IT WORKS -->
+        <div class="section-block">
+          <p class="section-eyebrow">How It Works</p>
+          <h2 class="section-h2">When everything feels important,<br/>nothing gets done.</h2>
+          <p class="section-body">Most people do not need a better planner. They need a system that tells them what matters now, what can wait, and what to let go of.</p>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">01</div>
+              <div class="step-text">
+                <strong>Dump</strong>
+                <span>Work tasks. Texts. Decisions. Worries. Everything.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">02</div>
+              <div class="step-text">
+                <strong>Sort</strong>
+                <span>AI organizes the chaos into clear buckets.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">03</div>
+              <div class="step-text">
+                <strong>Act</strong>
+                <span>You stop spinning and start moving.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DIFFERENTIATOR -->
+        <div class="section-block section-dark">
+          <p class="section-eyebrow">The Difference</p>
+          <h2 class="section-h2">Not everything deserves<br/>your energy.</h2>
+          <p class="section-body">Most productivity tools help you keep more.<br/><strong>This helps you let go of what does not matter right now.</strong></p>
+          <div class="philosophy-line">
+            <strong>Relief is not doing more.</strong><br/>
+            Relief is knowing what to ignore.
+          </div>
+        </div>
+
+        <!-- PAIN / IDENTITY -->
+        <div class="section-block">
+          <p class="section-eyebrow">If This Feels Familiar</p>
+          <h2 class="section-h2">You're not behind.<br/>You're carrying too much<br/>without a system.</h2>
+          <div class="pain-list">
+            <div class="pain-item">your to-do list keeps growing</div>
+            <div class="pain-item">everything feels equally urgent</div>
+            <div class="pain-item">you waste energy deciding where to start</div>
+            <div class="pain-item">by the end of the day, nothing feels finished</div>
+          </div>
+          <p class="reframe">This is not a discipline problem.<br/>It is a clarity problem.</p>
+        </div>
+
+        <!-- WHAT YOU GET -->
+        <div class="section-block">
+          <p class="section-eyebrow">What You Get</p>
+          <div class="buckets">
+            <div class="bucket bucket-now">
+              <div class="bucket-label">⚡ Do Now</div>
+              <div class="bucket-desc">Only the next few things that actually matter.</div>
+            </div>
+            <div class="bucket bucket-week">
+              <div class="bucket-label">📅 This Week</div>
+              <div class="bucket-desc">Important, but not urgent today.</div>
+            </div>
+            <div class="bucket bucket-later">
+              <div class="bucket-label">🕐 Later</div>
+              <div class="bucket-desc">Off your mind for now.</div>
+            </div>
+            <div class="bucket bucket-letgo">
+              <div class="bucket-label">🍃 Let Go</div>
+              <div class="bucket-desc">Things that do not deserve your energy right now.</div>
+            </div>
+          </div>
+          <p class="closing-line">You do not need to do everything.<br/>You just need to start with the right thing.</p>
+        </div>
+
+        <!-- FINAL CTA -->
+        <div class="section-block section-cta">
+          <h2 class="final-cta-h">Clear the noise.<br/>Know what matters.<br/>Move.</h2>
+          <p class="final-cta-sub">Use 3 free resets today.<br/>Takes less than a minute.</p>
+          <button class="btn-primary" id="startBtn2">Start your reset</button>
+          <p class="final-note">no setup · no complicated system · just clarity</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DUMP SCREEN -->
+    <section id="dumpScreen" class="screen">
+      <div class="screen-inner">
+        <h2>What's taking up space<br/>in your mind?</h2>
+        <p class="step-sub">Write everything exactly as it is.<br/>Messy is fine. Don't organize it.</p>
+        <textarea
+          id="dumpInput"
+          placeholder="Work tasks, errands, texts, decisions, worries — dump everything here..."
+          rows="10"
+          spellcheck="false"
+        ></textarea>
+        <div class="dump-meta">
+          <span class="uses-remaining" id="usesRemaining"></span>
+        </div>
+        <div class="btn-row">
+          <button class="btn-ghost" id="backToHero">Back</button>
+          <button class="btn-primary" id="processBtn" disabled>Clear my mind</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOADING SCREEN -->
+    <section id="loadingScreen" class="screen">
+      <div class="loading-content">
+        <div class="loader-ring"></div>
+        <p class="loading-text" id="loadingText">Clearing the noise…</p>
+        <p class="loading-sub">Sorting what matters now,<br/>what can wait,<br/>and what you can let go of.</p>
+      </div>
+    </section>
+
+    <!-- RESULTS SCREEN -->
+    <section id="resultsScreen" class="screen">
+      <div class="screen-inner results-inner">
+
+        <div class="results-header">
+          <div class="results-label">Your reset ✦</div>
+          <p class="results-sub">You do not need to do everything. Start here.</p>
+        </div>
+
+        <!-- DO NOW -->
+        <div class="result-block priority-now">
+          <div class="block-header">
+            <span class="block-icon">⚡</span>
+            <div class="block-title-group">
+              <span class="block-title">Do Now</span>
+              <span class="block-helper">Only focus on these next.</span>
+            </div>
+          </div>
+          <ul id="doNowList" class="task-list"></ul>
+        </div>
+
+        <!-- THIS WEEK -->
+        <div class="result-block collapsible" id="thisWeekBlock">
+          <div class="block-header collapse-toggle" id="thisWeekToggle">
+            <span class="block-icon">📅</span>
+            <div class="block-title-group">
+              <span class="block-title">This Week</span>
+              <span class="block-helper">Important, but not urgent today.</span>
+            </div>
+            <span class="collapse-arrow" id="thisWeekArrow">▼</span>
+          </div>
+          <div class="collapsible-body" id="thisWeekBody">
+            <ul id="thisWeekList" class="task-list"></ul>
+          </div>
+        </div>
+
+        <!-- LATER -->
+        <div class="result-block collapsible" id="laterBlock">
+          <div class="block-header collapse-toggle" id="laterToggle">
+            <span class="block-icon">🕐</span>
+            <div class="block-title-group">
+              <span class="block-title">Later</span>
+              <span class="block-helper">Keep these off your mind for now.</span>
+            </div>
+            <span class="collapse-arrow" id="laterArrow">▼</span>
+          </div>
+          <div class="collapsible-body" id="laterBody">
+            <ul id="laterList" class="task-list"></ul>
+          </div>
+        </div>
+
+        <!-- LET GO -->
+        <div class="result-block priority-letgo">
+          <div class="block-header">
+            <span class="block-icon">🍃</span>
+            <div class="block-title-group">
+              <span class="block-title">Let Go</span>
+              <span class="block-helper">These do not deserve your energy right now.</span>
+            </div>
+          </div>
+          <ul id="letGoList" class="task-list letgo-list"></ul>
+        </div>
+
+        <!-- IDENTITY LINE -->
+        <div class="identity-block" id="identityBlock"></div>
+
+        <!-- ACTIONS -->
+        <div class="results-actions">
+          <button class="btn-ghost" id="copyResultsBtn">Copy results</button>
+          <button class="btn-primary" id="resetAgainBtn">Start another reset</button>
+        </div>
+
+        <!-- UPSELL -->
+        <div class="upsell-block" id="upsellBlock">
+          <p class="upsell-headline">For the days your mind gets crowded again.</p>
+          <p class="upsell-text">Come back whenever you need. Unlimited resets, saved history, and a calmer system you can rely on.</p>
+          <button class="btn-upgrade" id="upsellCTA">Unlock Focus Mode</button>
+          <button class="btn-text" id="maybeLaterBtn">Maybe later</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PRO MODAL -->
+    <div class="modal-overlay" id="proModal">
+      <div class="modal">
+        <button class="modal-close" id="modalClose">✕</button>
+        <div class="modal-eyebrow">Reset Era Pro</div>
+        <h3 class="modal-title">You already know what matters.<br/>Now actually follow through.</h3>
+        <p class="modal-sub">You cleared the noise. Don't go back to chaos.</p>
+        <ul class="modal-features">
+          <li>✦ Unlimited resets</li>
+          <li>✦ Save your clarity history</li>
+          <li>✦ Unlock Focus Mode</li>
+          <li>✦ Come back whenever your mind feels crowded</li>
+        </ul>
+        <div class="modal-pricing">
+          <div class="modal-price-option selected" data-plan="monthly">
+            <span class="price-label">Monthly</span>
+            <span class="price-amount">$9<span class="price-per">/mo</span></span>
+          </div>
+          <div class="modal-price-option" data-plan="annual">
+            <span class="price-badge">Best Value</span>
+            <span class="price-label">Yearly</span>
+            <span class="price-amount">$59<span class="price-per">/yr</span></span>
+          </div>
+        </div>
+        <a href="#" class="btn-primary modal-cta" id="modalCTA">Unlock Focus Mode</a>
+        <button class="btn-text modal-skip" id="modalSkip">Maybe later</button>
+        <p class="modal-guarantee">Cancel anytime.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
