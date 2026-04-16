@@ -1,0 +1,39 @@
+-- User Model
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Reset Session Model
+CREATE TABLE reset_sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    reset_token VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- History Model
+CREATE TABLE history (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    action VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Settings Model
+CREATE TABLE settings (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    setting_key VARCHAR(255) NOT NULL,
+    setting_value TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
