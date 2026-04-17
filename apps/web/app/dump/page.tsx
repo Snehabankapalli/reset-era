@@ -51,54 +51,84 @@ export default function DumpPage() {
   }
 
   return (
-    <main className="min-h-screen bg-neutral-950 px-6 py-10 text-white">
-      <div className="mx-auto max-w-3xl">
-        <h1 className="text-3xl font-semibold">Brain dump</h1>
-        <p className="mt-3 text-white/65">Dump everything. No structure needed.</p>
+    <main className="relative min-h-screen overflow-hidden bg-neutral-950 text-white">
+      {/* Ambient glow */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-white/[0.03] blur-[120px]" />
 
-        <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
-          <textarea
-            value={rawInput}
-            onChange={(event) => setRawInput(event.target.value)}
-            className="min-h-56 w-full rounded-3xl border border-white/10 bg-white/[0.03] p-5 text-sm outline-none"
-            placeholder="Need to fix Kafka issue, reply to recruiter, finish README, taxes still pending..."
-            required
-          />
+      <div className="relative mx-auto max-w-2xl px-6 py-16 sm:py-24">
+        <div className="space-y-2">
+          <div className="text-xs font-medium uppercase tracking-[0.35em] text-white/30">
+            Reset Era
+          </div>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            Brain dump
+          </h1>
+          <p className="max-w-md text-base leading-relaxed text-white/50">
+            Everything on your mind. No structure, no judgement. The system will sort it.
+          </p>
+        </div>
+
+        <form className="mt-12 space-y-8" onSubmit={handleSubmit}>
+          <div className="group relative">
+            <textarea
+              value={rawInput}
+              onChange={(event) => setRawInput(event.target.value)}
+              className="min-h-[200px] w-full resize-none rounded-[24px] border border-white/[0.08] bg-white/[0.03] px-6 py-5 text-[15px] leading-7 text-white/90 outline-none transition-all duration-300 placeholder:text-white/25 focus:border-white/20 focus:bg-white/[0.05] focus:shadow-[0_0_40px_rgba(255,255,255,0.04)]"
+              placeholder="Fix Kafka consumer lag in prod...&#10;Reply to that recruiter email...&#10;Finish the README for healthcare repo...&#10;Taxes are still pending..."
+              required
+            />
+            <div className="pointer-events-none absolute bottom-4 right-4 text-xs text-white/15">
+              {rawInput.length > 0 ? `${rawInput.split("\n").filter(Boolean).length} items` : ""}
+            </div>
+          </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <select
-              value={energyLevel}
-              onChange={(event) => setEnergyLevel(event.target.value)}
-              className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 text-sm"
-            >
-              <option value="low">Energy: Low</option>
-              <option value="medium">Energy: Medium</option>
-              <option value="high">Energy: High</option>
-            </select>
+            <div className="space-y-2">
+              <label className="text-xs font-medium uppercase tracking-[0.2em] text-white/30">
+                Energy level
+              </label>
+              <select
+                value={energyLevel}
+                onChange={(event) => setEnergyLevel(event.target.value)}
+                className="w-full cursor-pointer appearance-none rounded-2xl border border-white/[0.08] bg-white/[0.03] px-5 py-3.5 text-sm text-white/70 outline-none transition-all hover:border-white/15 focus:border-white/20"
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
 
-            <select
-              value={availableMinutes}
-              onChange={(event) => setAvailableMinutes(Number(event.target.value))}
-              className="rounded-2xl border border-white/10 bg-white/[0.03] p-3 text-sm"
-            >
-              <option value={30}>30 minutes</option>
-              <option value={60}>60 minutes</option>
-              <option value={90}>90 minutes</option>
-            </select>
+            <div className="space-y-2">
+              <label className="text-xs font-medium uppercase tracking-[0.2em] text-white/30">
+                Available time
+              </label>
+              <select
+                value={availableMinutes}
+                onChange={(event) => setAvailableMinutes(Number(event.target.value))}
+                className="w-full cursor-pointer appearance-none rounded-2xl border border-white/[0.08] bg-white/[0.03] px-5 py-3.5 text-sm text-white/70 outline-none transition-all hover:border-white/15 focus:border-white/20"
+              >
+                <option value={30}>30 minutes</option>
+                <option value={60}>60 minutes</option>
+                <option value={90}>90 minutes</option>
+                <option value={120}>2 hours</option>
+              </select>
+            </div>
           </div>
 
           {error ? (
-            <div className="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+            <div className="rounded-2xl border border-red-500/20 bg-red-500/[0.06] px-5 py-4 text-sm text-red-300/90">
               {error}
             </div>
           ) : null}
 
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-neutral-950 disabled:opacity-60"
+            disabled={isSubmitting || !rawInput.trim()}
+            className="group relative w-full overflow-hidden rounded-2xl bg-white px-6 py-4 text-sm font-semibold text-neutral-950 transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.15)] disabled:opacity-40"
           >
-            {isSubmitting ? "Resetting..." : "Reset my day"}
+            <span className="relative z-10">
+              {isSubmitting ? "Sorting your chaos..." : "Reset my day"}
+            </span>
           </button>
         </form>
       </div>
