@@ -32,6 +32,7 @@ create table if not exists tasks (
   effort_score numeric default 0,
   priority_score numeric default 0,
   avoidance_count integer default 0,
+  is_pinned boolean default false,
   created_at timestamptz default now(),
   updated_at timestamptz default now(),
   embedding vector(1536)
@@ -43,5 +44,21 @@ create table if not exists daily_plans (
   date date not null default current_date,
   reasoning_summary text,
   estimated_total_minutes integer,
+  created_at timestamptz default now()
+);
+
+create table if not exists daily_plan_items (
+  id uuid primary key default gen_random_uuid(),
+  plan_id uuid references daily_plans(id) on delete cascade,
+  task_id uuid references tasks(id) on delete cascade,
+  first_step text not null,
+  position integer default 0,
+  created_at timestamptz default now()
+);
+
+create table if not exists reflections (
+  id uuid primary key default gen_random_uuid(),
+  task_id uuid references tasks(id) on delete cascade,
+  sentiment text not null check (sentiment in ('easy', 'expected', 'grind')),
   created_at timestamptz default now()
 );

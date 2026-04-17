@@ -1,37 +1,25 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy.orm import Session
 
-router = APIRouter()
+from app.db.models import Task
+from app.db.session import get_db
+from app.routes.tasks import serialize_task
+from app.services.planning_service import build_brutal_three
+
+router = APIRouter(prefix="/plans", tags=["plans"])
 
 
-@router.post("/plans/generate")
-def generate_plan():
+@router.post("/generate")
+def generate_plan(user_id: str = Query(...), db: Session = Depends(get_db)):
+    tasks = db.query(Task).filter(Task.user_id == user_id).all()
+    task_dicts = [serialize_task(task) for task in tasks]
+    plan = build_brutal_three(task_dicts)
     return {
-        "plan_id": "stub-plan-id",
-        "brutal_three": [
-            {
-                "title": "Fix Kafka partition skew",
-                "why_selected": "Blocking downstream reliability.",
-                "first_step": "Open consumer lag dashboard and inspect partition distribution.",
-                "estimated_minutes": 25
-            },
-            {
-                "title": "Ship healthcare repo README",
-                "why_selected": "Unblocks portfolio clarity.",
-                "first_step": "Write architecture bullets for ingestion, validation, storage, and observability.",
-                "estimated_minutes": 20
-            },
-            {
-                "title": "Reply to recruiter",
-                "why_selected": "Immediate leverage move.",
-                "first_step": "Send your available interview windows for next week.",
-                "estimated_minutes": 5
-            }
-        ],
-        "reasoning_summary": "High-impact mix of technical, portfolio, and career leverage.",
-        "estimated_total_minutes": 50
+        "plan_id": "generated-plan-v1",
+        **plan,
     }
 
 
-@router.get("/plans/today")
+@router.get("/today")
 def get_today_plan():
     return {"plan_id": None, "message": "No plan for today yet. Create a brain dump first."}
