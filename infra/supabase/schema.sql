@@ -33,6 +33,8 @@ create table if not exists tasks (
   priority_score numeric default 0,
   avoidance_count integer default 0,
   is_pinned boolean default false,
+  first_step text,
+  last_touched_at timestamptz default now(),
   created_at timestamptz default now(),
   updated_at timestamptz default now(),
   embedding vector(1536)
@@ -60,5 +62,13 @@ create table if not exists reflections (
   id uuid primary key default gen_random_uuid(),
   task_id uuid references tasks(id) on delete cascade,
   sentiment text not null check (sentiment in ('easy', 'expected', 'grind')),
+  created_at timestamptz default now()
+);
+
+create table if not exists task_events (
+  id serial primary key,
+  task_id uuid references tasks(id) on delete cascade,
+  event_type varchar(50) not null,
+  metadata jsonb default '{}',
   created_at timestamptz default now()
 );

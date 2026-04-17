@@ -1,11 +1,68 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { createDump, createTask, generatePlan } from "@/lib/api-client";
 
 const DEFAULT_USER_ID = "demo-user-1";
+
+const PROCESSING_STEPS = [
+  "[Intake] Scanning for dependencies...",
+  "[Intake] Parsing task boundaries...",
+  "[Strategist] Scoring impact vs effort...",
+  "[Strategist] Cross-referencing avoidance patterns...",
+  "[Strategist] Calculating momentum decay...",
+  "[Executive] Extracting the Brutal 3...",
+  "[Executive] Generating atomic first steps...",
+  "[System] Your reset is ready.",
+];
+
+function ProcessingOverlay() {
+  const [visibleLines, setVisibleLines] = useState(0);
+
+  useEffect(() => {
+    let step = 0;
+    const interval = setInterval(() => {
+      step += 1;
+      setVisibleLines(step);
+      if (step >= PROCESSING_STEPS.length) clearInterval(interval);
+    }, 600);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950/95 backdrop-blur-sm">
+      <div className="w-full max-w-lg px-6">
+        <div className="rounded-[24px] border border-white/[0.06] bg-neutral-900/80 p-8 shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+            <span className="text-xs font-mono uppercase tracking-[0.3em] text-emerald-400/80">
+              Processing
+            </span>
+          </div>
+          <div className="mt-6 space-y-2.5 font-mono text-sm">
+            {PROCESSING_STEPS.slice(0, visibleLines).map((line, i) => (
+              <div
+                key={i}
+                className={`transition-all duration-300 ${
+                  i === visibleLines - 1
+                    ? "text-emerald-300/90"
+                    : "text-white/30"
+                }`}
+              >
+                {line}
+              </div>
+            ))}
+            {visibleLines < PROCESSING_STEPS.length ? (
+              <span className="inline-block h-4 w-1.5 animate-pulse bg-emerald-400/70" />
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function DumpPage() {
   const router = useRouter();
@@ -14,11 +71,13 @@ export default function DumpPage() {
   const [energyLevel, setEnergyLevel] = useState("medium");
   const [availableMinutes, setAvailableMinutes] = useState(60);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showProcessing, setShowProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
+    setShowProcessing(true);
     setError(null);
 
     try {
@@ -42,8 +101,14 @@ export default function DumpPage() {
       }
 
       await generatePlan(DEFAULT_USER_ID);
+
+      // Wait for animation to finish before navigating
+      const minDisplayTime = PROCESSING_STEPS.length * 600 + 800;
+      await new Promise((resolve) => setTimeout(resolve, minDisplayTime));
+
       router.push("/plan");
     } catch (err) {
+      setShowProcessing(false);
       setError(err instanceof Error ? err.message : "Something went wrong while resetting your day.");
     } finally {
       setIsSubmitting(false);
@@ -52,6 +117,8 @@ export default function DumpPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-neutral-950 text-white">
+      {showProcessing ? <ProcessingOverlay /> : null}
+
       {/* Ambient glow */}
       <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-white/[0.03] blur-[120px]" />
 
@@ -74,7 +141,7 @@ export default function DumpPage() {
               value={rawInput}
               onChange={(event) => setRawInput(event.target.value)}
               className="min-h-[200px] w-full resize-none rounded-[24px] border border-white/[0.08] bg-white/[0.03] px-6 py-5 text-[15px] leading-7 text-white/90 outline-none transition-all duration-300 placeholder:text-white/25 focus:border-white/20 focus:bg-white/[0.05] focus:shadow-[0_0_40px_rgba(255,255,255,0.04)]"
-              placeholder="Fix Kafka consumer lag in prod...&#10;Reply to that recruiter email...&#10;Finish the README for healthcare repo...&#10;Taxes are still pending..."
+              placeholder={"Fix Kafka consumer lag in prod...\nReply to that recruiter email...\nFinish the README for healthcare repo...\nTaxes are still pending..."}
               required
             />
             <div className="pointer-events-none absolute bottom-4 right-4 text-xs text-white/15">
