@@ -1,0 +1,9 @@
+{
+  "name": "@reset-era/ui",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "dependencies": {
+    "react": "19.0.0"
+  }
+}

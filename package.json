@@ -1,18 +1,16 @@
 {
   "name": "reset-era",
-  "version": "1.0.0",
-  "description": "AI clarity system — clear your mind in under a minute",
-  "main": "server.js",
+  "private": true,
+  "packageManager": "pnpm@10.0.0",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "dev:web": "pnpm --filter web dev",
+    "dev:api": "pnpm --filter api dev"
   },
-  "dependencies": {
-    "express": "^4.19.2",
-    "stripe": "^14.21.0",
-    "@supabase/supabase-js": "^2.43.4"
-  },
-  "engines": {
-    "node": ">=18"
+  "devDependencies": {
+    "turbo": "^2.0.0"
   }
 }
