@@ -3,3 +3,7 @@ node_modules/
 .env.local
 .env.production
 *.log
+__pycache__/
+*.egg-info/
+.next/
+next-env.d.ts
